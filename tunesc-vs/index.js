@@ -1,6 +1,4 @@
-const forms = document.querySelector(".forms");
 const pwShowHide = document.querySelectorAll(".eye-icon");
-const links = document.querySelectorAll(".link");
 
 pwShowHide.forEach(eyeIcon => {
     eyeIcon.addEventListener("click",() => {
@@ -15,12 +13,5 @@ pwShowHide.forEach(eyeIcon => {
             password.type = "password";
             eyeIcon.classList.replace("bx-show", "bx-hide");
         })
-    })
-})
-
-links.forEach(link => {
-    link.addEventListener("click", e => {
-       e.preventDefault(); //preventing form submit
-       forms.classList.toggle("show-signup");
     })
 })

@@ -29,7 +29,7 @@
     column-gap: 30px
 }
 
-.form {
+.cont-form {
     position: absolute;
     max-width: 430px;
     width: 100%;
@@ -38,17 +38,17 @@
     background: var(--F-color);
 }
 
-.form.signup {
+.cont-form.signup {
     opacity: 0;
     pointer-events: none;
 }
 
-.forms.show-signup .form.signup {
+.formuh.show-signup .cont-form.signup {
     opacity: 1;
     pointer-events: auto;
 }
 
-.forms.show-signup .form.login {
+.formuh.show-signup .cont-form.login {
     opacity: 0;
     pointer-events: none;
 }
@@ -64,7 +64,7 @@ form {
     margin-top: 20px;
 }
 
-.form .field {
+.cont-form .field {
     position: relative;
     height: 50px;
     width: 100%;
@@ -125,7 +125,7 @@ form {
     font-weight: 400;
 }
 
-.form a {
+.cont-form a {
     color: var(--accent);
     text-decoration: none;
 }
