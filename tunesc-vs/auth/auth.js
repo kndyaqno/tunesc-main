@@ -1,4 +1,4 @@
-function signin() {
+function signinGoogle() {
     console.log("signIn function called");
     let oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
 
@@ -26,4 +26,9 @@ function signin() {
     }
     document.body.appendChild(form)
     form.submit()
+}
+
+
+function signinFacebook() {
+    
 }
