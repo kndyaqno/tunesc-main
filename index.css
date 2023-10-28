@@ -125,6 +125,10 @@ form {
     font-weight: 400;
 }
 
+.form-link a {
+    cursor: pointer;
+}
+
 .cont-form a {
     color: var(--accent);
     text-decoration: none;

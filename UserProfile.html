@@ -7,6 +7,47 @@
   </head>
   <body>
     <!-- dito mag reredirect yung user after login -->
-    <h1>bobo</h1>
+    <h1>Welcome User</h1>
+
+    <h2 id="name">Your name is :</h2>
+    <img id="image" />
+
+    <button onclick="signout()">Signout</button>
+    <script>
+          let params = {};
+
+      let regex = /([^&=]+)=([^&]*)/g,
+        m;
+      while ((m = regex.exec(location.href))) {
+        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+      }
+      if (Object.keys(params).length > 0) {
+        localStorage.setItem("authInfo", JSON.stringify(params));
+      }
+      //hide access token, no page refresh
+      window.history.pushState({}, document.title, "/" + "UserProfile.html");
+
+      let info = JSON.parse(localStorage.getItem("authInfo"));
+
+      //prints all inside .objects
+      console.log(JSON.parse(localStorage.getItem("authInfo")));
+
+      //properties inside .objects
+      console.log(info["access_token"]);
+      console.log(info["expires_in"]);
+
+      fetch ("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: {
+              "Authorization":`Bearer ${info[`access_token`]}`
+          }
+      })
+      .then((data) => data.JSON)
+      .then((info) => {
+          console.log(info)
+          //adds name of the logged in user
+          document.getElementById('name').innerHTML += info.name
+          document.getElementById('image').setAttribute('src') = info.picture
+      })
+    </script>
   </body>
 </html>

@@ -9,7 +9,7 @@ function signinGoogle() {
 
     let params = {
         "client_id": "704828108961-a0g1u5hghgeqho7edq1c8l644e8jf11a.apps.googleusercontent.com",
-        "redirect_uri": "http://127.0.0.1:5500/userProfile.html", //where to go after auth
+        "redirect_uri": "http://127.0.0.1:5500/userProfile.html", //where to redirect after auth/login
         "response_type": "token",
         "scope": "https://www.googleapis.com/auth/userinfo.profile", //space inside the link adds more scopes
         "include_granted_scopes": "true",
@@ -28,7 +28,11 @@ function signinGoogle() {
     form.submit()
 }
 
+function signoutGoogle() {
 
-function signinFacebook() {
-    
 }
+
+
+// function signinFacebook() {
+    
+// }
