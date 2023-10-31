@@ -22,8 +22,7 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
   const db = getDatabase()
   const auth = getAuth(app)
-
-    //for signin
+  //for signin
   const dbref = ref(db);
 
 //sign up
@@ -33,42 +32,12 @@ const firebaseConfig = {
     let PassConfirmInp = document.getElementById('passwordConf-signup')
     let RegisForm = document.getElementById('RegisForm')
 
-
 //login
 
     let EmailLogInp = document.getElementById('email-login')
     let PassLogInp = document.getElementById('password-login')
     let LoginForm = document.getElementById('LoginForm')
 
-export function RegisterUser(evt) {
-    evt.preventDefault();
-    createUserWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
-    .then((credentials) => {
-      //rest of the info will be put into the realtime database
-      console.log(credentials)
-    })
-    .catch ((error) => {
-      //show error, refactor this later in a pop-up form
-      alert(error.message);
-      console.log(error.code)
-      console.log(error.message)
-    });
-  }
-
-export  function LoginUser(evt) {
-    evt.preventDefault();
-    signInWithEmailAndPassword(auth, EmailLogInp.value, PassLogInp.value)
-        .then((credentials) => {
-            //rest of the info will be put into the realtime database
-            console.log(credentials)
-        })
-        .catch ((error) => {
-            //show error, refactor this later in a pop-up form
-            alert(error.message);
-            console.log(error.code)
-            console.log(error.message)
-        });
-    }
 
 // add to button nalang
 // RegisForm.addEventListener('submit', RegisterUser)
