@@ -38,21 +38,6 @@
     background: var(--F-color);
 }
 
-.cont-form.signup {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.formuh.show-signup .cont-form.signup {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.formuh.show-signup .cont-form.login {
-    opacity: 0;
-    pointer-events: none;
-}
-
 header {
     font-size: var(--heading-Fsize);
     font-weight: 600;

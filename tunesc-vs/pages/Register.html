@@ -3,70 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="/tunesc-vs/styles/login-sign.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <title>TuneSculpt</title>
+    <title>TuneSculpt Signup</title>
   </head>
   <body>
     <section class="container formuh">
-      <!-- sign in -->
-      <div class="cont-form login">
-        <div class="form-content">
-          <header>Log in with</header>
-          <form action="#">
-            <div class="field input-field">
-              <input type="email" class="input" placeholder="Email" />
-            </div>
-
-            <div class="field input-field">
-              <input type="password" class="password" placeholder="Password" />
-              <i class="bx bx-hide eye-icon"></i>
-            </div>
-
-            <div class="form-link">
-              <a class="forgot-pass">Forgot password?</a>
-            </div>
-
-            <div class="field button-field">
-              <button>Signin</button>
-            </div>
-          </form>
-          <div class="form-link">
-            <span
-              >Already have an account?
-              <a class="link signup-link">Signup</a>
-            </span>
-          </div>
-        </div>
-
-        <div class="line"></div>
-
-        <div onclick="signinFacebook()" class="media-options">
-          <a class="field facebook">
-            <i class="bx bxl-facebook facebook-icon"></i>
-            <span>Login with facebook</span>
-          </a>
-        </div>
-
-        <div onclick="signinGoogle()" class="media-options">
-          <a class="field google">
-            <i class="bx bxl-google google-icon"></i>
-            <span>Login with google</span>
-          </a>
-        </div>
-      </div>
-
       <!-- signup -->
-
       <div class="cont-form signup">
         <div class="form-content">
           <header>Signup</header>
-          <form action="#">
+          <form id="RegisForm" action="#">
+
             <div class="field input-field">
-              <input type="email" id="email-signup" class="input" placeholder="Email" />
+              <input id="name-signup" type="text" class="input" placeholder="Display Name"/>
+            </div>
+
+            <div class="field input-field">
+              <input id="email-signup" type="email"  class="input" placeholder="Email" />
             </div>
 
             <div class="field input-field">
@@ -89,13 +46,15 @@
             </div>
 
             <div class="field button-field">
-              <button>Signup</button>
+            <!-- add type="submit"-->
+            <!-- add onclick="RegisterUser(evt)"-->
+              <button type="submit" >Signup</button>
             </div>
           </form>
           <div class="form-link">
             <span
               >Already have an account?
-              <a id="switcheroo" class="link signup-link">Signin</a>
+              <a href="/tunesc-vs/pages/Login.html" class="link signup-link">Signin</a>
             </span>
           </div>
         </div>
@@ -118,19 +77,18 @@
       </div>
     </section>
 
-    <script src="index.js"></script>
-    <script src="/tunesc-vs/auth/firebaseAuth.js"></script>
+    <script src="/tunesc-vs/components/showPass.js"></script>
 
-    <script type="module">
+     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
       //set and ref is used to save data to db
-      import { getDatabse, set, ref, } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-      import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+      import { getDatabase, set, ref, } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+      import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
       // TODO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
 
       // Your web app's Firebase configuration
+
       const firebaseConfig = {
         apiKey: "AIzaSyDZ2X6a_hSxKdTbbj20WTztJx1YGv8q5k8",
         authDomain: "tunesc-25041.firebaseapp.com",
@@ -143,10 +101,37 @@
 
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
-      const db = getDatabse()
+      const db = getDatabase()
       const auth = getAuth(app)
 
-      let EmailInp = document.getElementById('email')
+      let DispnameInp = document.getElementById('name-signup')
+      let EmailInp = document.getElementById('email-signup')
+      let PassInp = document.getElementById('password-signup')
+      let PassConfirmInp = document.getElementById('passwordConf-signup')
+      let RegisForm = document.getElementById('RegisForm')
+
+      let RegisterUser = evt => {
+        evt.preventDefault();
+
+        createUserWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+        .then((credentials) => {
+          //rest of the info will be put into the realtime database
+          // console.log(credentials)
+          set(ref(db,'UsersAuthList/' + credentials.user.uid), {
+            name: DispnameInp.value,
+          })
+        })
+        .catch ((error) => {
+          //show error, refactor this later to a pop up
+          alert(error.message);
+          console.log(error.code)
+          console.log(error.message)
+        })
+      }
+
+      RegisForm.addEventListener('submit', RegisterUser)
     </script>
+
+<!--    <script type="module" src="/tunesc-vs/auth/firebaseAuth.js"></script>-->
   </body>
 </html>

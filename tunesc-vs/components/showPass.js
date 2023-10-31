@@ -1,7 +1,4 @@
-const forms = document.querySelector(".forms");
 const pwShowHide = document.querySelectorAll(".eye-icon");
-const links = document.querySelectorAll(".link");
-const switchPage = document.getElementById(".switcheroo")
 
 pwShowHide.forEach(eyeIcon => {
     eyeIcon.addEventListener("click",() => {
@@ -18,16 +15,3 @@ pwShowHide.forEach(eyeIcon => {
         })
     })
 })
-
-switcheroo.addEventListener("click", e => {
-    e.preventDefault();
-    forms.classList.toggle("show-signup")
-})
-
-links.forEach(link => {
-    link.addEventListener("click", e => {
-       e.preventDefault(); //preventing form submit
-       forms.classList.toggle("show-signup");
-    })
-})
-
