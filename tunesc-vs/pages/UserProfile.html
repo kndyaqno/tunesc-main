@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- confirm css -->
+    <link rel="stylesheet" href="confirm.css" />
     <title>User</title>
   </head>
   <body>
@@ -15,34 +17,32 @@
 
     <h2 id="msg"></h2>
     <h2 id="greet"></h2>
-  <script>
-    // json.parse reverses the effect of json.stringify so cconvert niya yung string back to object
-    let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"))
-    let UserInfo = JSON.parse(sessionStorage.getItem("user-info"))
+    <script>
+      // json.parse reverses the effect of json.stringify so cconvert niya yung string back to object
+      let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+      let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
 
-    let MsgHead = document.getElementById('msg')
-    let GreetHead = document.getElementById('greet')
-    let SignoutBtn = document.getElementById('SignoutBtn')
+      let MsgHead = document.getElementById("msg");
+      let GreetHead = document.getElementById("greet");
+      let SignoutBtn = document.getElementById("SignoutBtn");
 
+      let Signout = () => {
+        sessionStorage.removeItem("user-creds");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "Login.html";
+      };
 
-    let Signout = () => {
-      sessionStorage.removeItem("user-creds")
-      sessionStorage.removeItem("user-info")
-      window.location.href = 'Login.html'
-    }
+      let CheckCred = () => {
+        if (!sessionStorage.getItem("user-creds")) {
+          window.location.href = "Login.html";
+        } else {
+          MsgHead.innerText = `user with email "${UserCreds.email}" logged in`;
+          GreetHead.innerText = `welcome "${UserInfo.name}"!`;
+        }
+      };
 
-    let CheckCred = () => {
-      if(!sessionStorage.getItem("user-creds")){
-        window.location.href = 'Login.html'
-      } else {
-        MsgHead.innerText = `user with email "${UserCreds.email}" logged in`
-        GreetHead.innerText = `welcome "${UserInfo.name}"!`
-      }
-    }
-
-    window.addEventListener('load', CheckCred)
-    SignoutBtn.addEventListener('click', Signout)
-  </script>
-
+      window.addEventListener("load", CheckCred);
+      SignoutBtn.addEventListener("click", Signout);
+    </script>
   </body>
 </html>

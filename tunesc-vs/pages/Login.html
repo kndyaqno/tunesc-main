@@ -18,13 +18,22 @@
         <div class="form-content">
           <header>Log in with</header>
           <form id="LoginForm" action="#">
-
             <div class="field input-field">
-              <input id="email-login"  type="text" class="input" placeholder="Email" />
+              <input
+                id="email-login"
+                type="text"
+                class="input"
+                placeholder="Email"
+              />
             </div>
 
             <div class="field input-field">
-              <input id="password-login" type="password" class="password" placeholder="Password" />
+              <input
+                id="password-login"
+                type="password"
+                class="password"
+                placeholder="Password"
+              />
               <i class="bx bx-hide eye-icon"></i>
             </div>
 
@@ -40,100 +49,94 @@
           <div class="form-link">
             <span
               >Already have an account?
-              <a
-              href="/tunesc-vs/pages/Register.html"
-              class="link signup-link">
-              Signup
+              <a href="/tunesc-vs/pages/Register.html" class="link signup-link">
+                Signup
               </a>
             </span>
           </div>
         </div>
-
-        <div class="line"></div>
-
-        <div onclick="signinFacebook()" class="media-options">
-          <a class="field facebook">
-            <i class="bx bxl-facebook facebook-icon"></i>
-            <span>Login with facebook</span>
-          </a>
-        </div>
-
-        <div onclick="signinGoogle()" class="media-options">
-          <a class="field google">
-            <i class="bx bxl-google google-icon"></i>
-            <span>Login with google</span>
-          </a>
-        </div>
       </div>
     </section>
+    <!--    <script type="module" src="/tunesc-vs/auth/firebaseAuth.js"></script>-->
 
-<!--    <script type="module" src="/tunesc-vs/auth/firebaseAuth.js"></script>-->
+    <script src="/tunesc-vs/components/showPass.js"></script>
 
-  <script src="/tunesc-vs/components/showPass.js"></script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+      //get and child is for login
+      import {
+        getDatabase,
+        ref,
+        get,
+        child,
+      } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+      //signInWithEmailAndPassword name explains itself
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+      // Your web app's Firebase configuration
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-    //get and child is for login
-    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
-    //signInWithEmailAndPassword name explains itself
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
+      const firebaseConfig = {
+        apiKey: "AIzaSyDZ2X6a_hSxKdTbbj20WTztJx1YGv8q5k8",
+        authDomain: "tunesc-25041.firebaseapp.com",
+        databaseURL: "https://tunesc-25041-default-rtdb.firebaseio.com",
+        projectId: "tunesc-25041",
+        storageBucket: "tunesc-25041.appspot.com",
+        messagingSenderId: "78861021693",
+        appId: "1:78861021693:web:21177637753316c7b72994",
+      };
 
-    // Your web app's Firebase configuration
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase();
+      const auth = getAuth(app);
+      const dbref = ref(db);
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDZ2X6a_hSxKdTbbj20WTztJx1YGv8q5k8",
-      authDomain: "tunesc-25041.firebaseapp.com",
-      databaseURL: "https://tunesc-25041-default-rtdb.firebaseio.com",
-      projectId: "tunesc-25041",
-      storageBucket: "tunesc-25041.appspot.com",
-      messagingSenderId: "78861021693",
-      appId: "1:78861021693:web:21177637753316c7b72994",
-    };
+      let EmailLogInp = document.getElementById("email-login");
+      let PassLogInp = document.getElementById("password-login");
+      let LoginForm = document.getElementById("LoginForm");
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase()
-    const auth = getAuth(app)
-    const dbref = ref(db)
+      let LoginUser = (evt) => {
+        evt.preventDefault();
 
-
-    let EmailLogInp = document.getElementById('email-login')
-    let PassLogInp = document.getElementById('password-login')
-    let LoginForm = document.getElementById('LoginForm')
-
-    let LoginUser = evt => {
-      evt.preventDefault();
-
-      signInWithEmailAndPassword(auth, EmailLogInp.value, PassLogInp .value)
-              .then((credentials) => {
-                //rest of the info will be put into the realtime database
-                //console.log(credentials)
-                //get retrieves info in db
-                get(child(dbref,'UsersAuthList/' + credentials.user.uid)).then((snapshot) => {
-                  if(snapshot.exists) {
-                    //localStorage para permanently logged in sa browser nila
-                    sessionStorage.setItem("user-info", JSON.stringify({
-                      name: snapshot.val().name
+        signInWithEmailAndPassword(auth, EmailLogInp.value, PassLogInp.value)
+          .then((credentials) => {
+            //rest of the info will be put into the realtime database
+            //console.log(credentials)
+            //get retrieves info in db
+            get(child(dbref, "UsersAuthList/" + credentials.user.uid)).then(
+              (snapshot) => {
+                if (snapshot.exists) {
+                  //localStorage para permanently logged in sa browser nila
+                  sessionStorage.setItem(
+                    "user-info",
+                    JSON.stringify({
+                      name: snapshot.val().name,
                       //the object is converted to string then malalagay sa sessionStorage
-                    }))
-                    sessionStorage.setItem("user-creds",JSON.stringify(credentials.user))
-                    //this redirects the page after logging in, user profile for the mean time
-                    window.location.href = 'UserProfile.html'
-                  }
-                })
-              })
-              .catch ((error) => {
-                //show error, refactor this later to a pop up
-                alert(error.message);
-                console.log(error.code)
-                console.log(error.message)
-              })
-    }
+                    })
+                  );
+                  sessionStorage.setItem(
+                    "user-creds",
+                    JSON.stringify(credentials.user)
+                  );
+                  //this redirects the page after logging in, user profile for the mean time
+                  window.location.href = "UserProfile.html";
+                }
+              }
+            );
+          })
+          .catch((error) => {
+            //show error, refactor this later to a popup
+            alert(error.message);
+            console.log(error.code);
+            console.log(error.message);
+          });
+      };
 
-    LoginForm.addEventListener('submit', LoginUser)
-  </script>
+      LoginForm.addEventListener("submit", LoginUser);
+    </script>
   </body>
-
 </html>
