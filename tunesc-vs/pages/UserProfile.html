@@ -5,18 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- confirm css -->
     <link rel="stylesheet" href="confirm.css" />
+    <link rel="stylesheet" href="/tunesc-vs//styles/userprofile.css" />
     <title>User</title>
   </head>
   <body>
     <!-- dito mag reredirect yung user after login -->
-    <h1>Welcome User</h1>
 
-    <h2 id="name">Your name is :</h2>
+    <!-- sidebar -->
 
-    <button id="SignoutBtn">Signout</button>
+    <div class="sidebar">
+      <div class="logo"></div>
+      <ul class="menu">
+        <li class="active">
+          <a href="#">
+            <i class="fa-solid fa-address-book"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-chess-board"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>Calendar</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-chart-area"></i>
+            <span>Statistics</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa-solid fa-toolbox"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+        <li class="logout">
+          <a href="#" id="SignoutBtn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
 
+    <div class="main--content">
+      <div class="header--wrapper">
+        <div class="header--title">
+          <span>Primary</span>
+          <h2>Dashboard</h2>
+        </div>
+        <div class="user--info">
+          <div class="search--box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search" />
+          </div>
+          <!-- lagay galing firebase yung user image -->
+          <img src="" alt="" />
+        </div>
+      </div>
+
+      <div class="card--container">
+        <h3 class="main--title">Today's mood</h3>
+        <div class="card--wrapper">
+          <!-- puro placeholder lang muna -->
+          <div class="payment--card">
+            <div class="card--header">
+              <div class="amount">
+                <span class="title">Happy</span>
+                <span class="amount-value">Test</span>
+              </div>
+              <i class="fa-solid fa-face-smile-beam"></i>
+            </div>
+            <span class="card-detail">Click Me</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <h1>Welcome User</h1>
+
+    <h2 id="name">Your name is:</h2> -->
+
+    <!-- <button id="SignoutBtn">Signout</button> -->
+    <!-- 
     <h2 id="msg"></h2>
-    <h2 id="greet"></h2>
+    <h2 id="greet"></h2> -->
+
     <script>
       // json.parse reverses the effect of json.stringify so cconvert niya yung string back to object
       let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
@@ -44,5 +125,11 @@
       window.addEventListener("load", CheckCred);
       SignoutBtn.addEventListener("click", Signout);
     </script>
+
+    <!-- fontawesome icons -->
+    <script
+      src="https://kit.fontawesome.com/64d29af423.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
