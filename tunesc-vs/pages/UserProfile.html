@@ -3,100 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- confirm css -->
-    <link rel="stylesheet" href="confirm.css" />
-    <link rel="stylesheet" href="/tunesc-vs//styles/userprofile.css" />
-    <title>User</title>
+    <title>Profile</title>
   </head>
-  <body>
-    <!-- dito mag reredirect yung user after login -->
-
-    <!-- sidebar -->
-
-    <div class="sidebar">
-      <div class="logo"></div>
-      <ul class="menu">
-        <li class="active">
-          <a href="#">
-            <i class="fa-solid fa-address-book"></i>
-            <span>Profile</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa-solid fa-chess-board"></i>
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa-solid fa-calendar-day"></i>
-            <span>Calendar</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa-solid fa-chart-area"></i>
-            <span>Statistics</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa-solid fa-toolbox"></i>
-            <span>Settings</span>
-          </a>
-        </li>
-        <li class="logout">
-          <a href="#" id="SignoutBtn">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Logout</span>
-          </a>
-        </li>
-      </ul>
+  <body onload="onPageLoad()">
+    <div class="main-container">
+      <div></div>
     </div>
+    <h1>imm gonna kill myself</h1>
+    <div id="greet">Hi,</div>
+    <button onclick="authorizeSpot()">Login to Spotify</button>
 
-    <div class="main--content">
-      <div class="header--wrapper">
-        <div class="header--title">
-          <span>Primary</span>
-          <h2>Dashboard</h2>
-        </div>
-        <div class="user--info">
-          <div class="search--box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search" />
-          </div>
-          <!-- lagay galing firebase yung user image -->
-          <img src="" alt="" />
-        </div>
-      </div>
-
-      <div class="card--container">
-        <h3 class="main--title">Today's mood</h3>
-        <div class="card--wrapper">
-          <!-- puro placeholder lang muna -->
-          <div class="payment--card">
-            <div class="card--header">
-              <div class="amount">
-                <span class="title">Happy</span>
-                <span class="amount-value">Test</span>
-              </div>
-              <i class="fa-solid fa-face-smile-beam"></i>
-            </div>
-            <span class="card-detail">Click Me</span>
-          </div>
-        </div>
+    <div>
+      <div>
+        <p id="spot_name"></p>
+        <p id="spot_email"></p>
+        <p id="spot_followers"></p>
+        <p id="spot_country"></p>
+        <img id="spot_picture" alt="Your Icon!" />
       </div>
     </div>
 
-    <!-- <h1>Welcome User</h1>
+    <div id="user-profile"></div>
 
-    <h2 id="name">Your name is:</h2> -->
+    <br />
+    <br />
+    <button id="Signout">Signout</button>
 
-    <!-- <button id="SignoutBtn">Signout</button> -->
-    <!-- 
-    <h2 id="msg"></h2>
-    <h2 id="greet"></h2> -->
+    <!-- spotify -->
+    <script src="/tunesc-vs/components/spot.js"></script>
+    <script src="/tunesc-vs/components/spotProfile.js"></script>
+    <!-- firebasesignin -->
+    <script type="module" src="/tunesc-vs/auth/signin.js"></script>
 
     <script>
       // json.parse reverses the effect of json.stringify so cconvert niya yung string back to object
@@ -126,10 +63,8 @@
       SignoutBtn.addEventListener("click", Signout);
     </script>
 
-    <!-- fontawesome icons -->
-    <script
-      src="https://kit.fontawesome.com/64d29af423.js"
-      crossorigin="anonymous"
-    ></script>
+    <!-- firebase -->
+    <script type="module" src="/tunesc-vs/auth/signin.js"></script>
+    <script type="module" src="/tunesc-vs/auth/signup.js"></script>
   </body>
 </html>
