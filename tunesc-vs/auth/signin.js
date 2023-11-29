@@ -56,7 +56,7 @@ let LoginUser = (evt) => {
               JSON.stringify(credentials.user)
             );
             //this redirects the page after logging in, user profile for the mean time
-            window.location.href = "UserProfile.html";
+            window.location.href = "Connect.html";
           }
         }
       );

@@ -1,6 +1,6 @@
-const client_id = "dc26e4f1b1e646f99f6fe1f0f658c64d";
-const client_secret = "28328790fd314f768178c20795542397";
-const redirect_uri = "http://127.0.0.1:5500/tunesc-vs/pages/UserProfile.html";
+const client_id = "3298c0aed7f940dab9fc68c1d0bbc812";
+const client_secret = "4dcdf67d414b4f0192db89958fa16108";
+const redirect_uri = "http://127.0.0.1:5500/tunesc-vs/pages/Dashboard.html";
 const AUTHORIZE = "https://accounts.spotify.com/authorize";
 const scopes =
   "user-read-private user-read-email playlist-modify-public playlist-modify-public ugc-image-upload";
