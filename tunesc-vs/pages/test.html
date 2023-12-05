@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Playlist Generator</title>
+    <!-- Include the Spotify Web API script -->
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Connect to Spotify button -->
+    <button id="connectBtn" onclick="authenticateSpotify()">Connect to Spotify</button>
+
+    <!-- Generate Playlist button -->
+    <button id="generateBtn" onclick="generateRandomPlaylist()" disabled>Generate Random Playlist</button>
+
+    <script>
+        // Spotify API credentials
+        const clientId = 'd4755119e396499d85fab5db2e5f8a8a';
+        const clientSecret = 'fcaecd1ac01640a1adad2a2c30d5b783';
+        const redirectUri = 'http://127.0.0.1:5500/tunesc-vs/pages/test.html'; // Update this to your server endpoint
+
+        // Spotify access token
+        let accessToken;
+
+        // Function to authenticate with Spotify using Authorization Code flow
+        function authenticateSpotify() {
+            const scopes = 'playlist-modify-public'; // Add any additional scopes your app needs
+
+            // Redirect the user to Spotify for authentication
+            window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${encodeURIComponent(scopes)}&response_type=code`;
+        }
+
+        // Function to extract the authorization code from the URL after the redirect
+        function getAuthorizationCode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('code');
+        }
+
+        // Check if the page was redirected from Spotify with an authorization code
+        const authorizationCode = getAuthorizationCode();
+        if (authorizationCode) {
+            // Exchange the authorization code for an access token
+            exchangeAuthorizationCode(authorizationCode);
+        }
+
+        // Function to exchange the authorization code for an access token
+        function exchangeAuthorizationCode(code) {
+            const tokenEndpoint = 'https://accounts.spotify.com/api/token';
+            const data = {
+                grant_type: 'authorization_code',
+                code: code,
+                redirect_uri: redirectUri,
+                client_id: clientId,
+                client_secret: clientSecret,
+            };
+
+
+            //dsadasd /asdddsasd
+            fetch(tokenEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                accessToken = data.access_token;
+                document.getElementById('generateBtn').disabled = false;
+                alert('Connected to Spotify!');
+            })
+            .catch(error => {
+                console.error('Error exchanging authorization code:', error);
+            });
+        }
+
+        // Function to generate a playlist of random songs
+        function generateRandomPlaylist() {
+            if (!accessToken) {
+                alert('Please connect to Spotify first.');
+                return;
+            }
+
+            // Example: Create a playlist named "Random Playlist" and add 10 random songs to it
+            createPlaylist('Random Playlist').then(playlistId => {
+                generateRandomTracks(10).then(trackUris => {
+                    addTracksToPlaylist(playlistId, trackUris).then(() => {
+                        alert(`Playlist "Random Playlist" created with 10 random songs.`);
+                    });
+                });
+            });
+        }
+
+        // Function to create a playlist in the user's Spotify account
+        async function createPlaylist(playlistName) {
+            const createPlaylistEndpoint = 'https://api.spotify.com/v1/me/playlists';
+
+            // Create the playlist
+            const response = await fetch(createPlaylistEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({
+                    name: playlistName,
+                    public: true
+                })
+            });
+
+            const data = await response.json();
+            return data.id;
+        }
+
+        // Function to generate a list of random song track URIs
+        async function generateRandomTracks(numTracks) {
+            const randomTracksEndpoint = 'https://api.spotify.com/v1/browse/new-releases';
+            const response = await fetch(randomTracksEndpoint, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            const data = await response.json();
+            const trackUris = data.albums.items.slice(0, numTracks).map(item => item.uri);
+            return trackUris;
+        }
+
+        // Function to add tracks to a playlist
+        async function addTracksToPlaylist(playlistId, trackUris) {
+            const addTracksEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+
+            await fetch(addTracksEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({
+                    uris: trackUris
+                })
+            });
+        }
+    </script>
+</body>
+</html>
