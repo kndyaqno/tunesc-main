@@ -136,3 +136,35 @@ body {
 }
 
 /* card container */
+
+/* Mood Selection Styles */
+.mood-selection {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#moodForm {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+#moodDropdown {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  margin-right: 10px;
+}
+
+#moodForm button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+#moodForm button:hover {
+  background-color: #45a049;
+}

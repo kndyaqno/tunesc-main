@@ -71,23 +71,21 @@
         </div>
       </div>
 
-      <div class="card--container">
-        <h3 class="main--title">Today's mood</h3>
-        <div class="card--wrapper">
-          <!-- puro placeholder lang muna -->
-          <div class="payment--card">
-            <div class="card--header">
-              <div class="amount">
-                <span class="title">Happy</span>
-                <span class="amount-value">Test</span>
-              </div>
-              <i class="fa-solid fa-face-smile-beam"></i>
-            </div>
-            <span class="card-detail">Click Me</span>
-          </div>
-        </div>
+            <!-- Mood Selection Dropdown -->
+      <div class="mood-selection">
+        <form id="moodForm">
+          <label for="moodDropdown">Select your mood:</label>
+          <select id="moodDropdown" name="moods">
+            <option value="happy">Happy</option>
+            <option value="sad">Sad</option>
+            <option value="energetic">Energetic</option>
+            <option value="relax">Relax</option>
+            <option value="angry">Angry</option>
+          </select>
+          <button type="submit">Generate Playlist</button>
+        </form>
       </div>
-    </div>
+
 
     <!-- firebase -->
     <script type="module" src="/tunesc-vs/auth/signin.js"></script>
