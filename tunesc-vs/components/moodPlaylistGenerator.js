@@ -41,12 +41,38 @@ function fetchSpotifyUserID() {
 
 function mapMoodToAttributes(mood) {
   // Maps the selected mood to track attributes used in the Spotify API
-  return {
-    valence: mood === 'happy' ? 0.8 : mood === 'sad' ? 0.2 : 0.5,
-    energy: mood === 'energetic' ? 0.8 : 0.4,
-    // ...other mood mappings...
+  const attributes = {
+    valence: 0.5, // Default valence
+    energy: 0.5,  // Default energy
   };
+
+  switch (mood) {
+    case 'Happy':
+      attributes.valence = 0.8;
+      attributes.energy = 0.8;
+      break;
+    case 'Sad':
+      attributes.valence = 0.2;
+      attributes.energy = 0.3;
+      break;
+    case 'Energetic':
+      attributes.valence = 0.7;
+      attributes.energy = 0.9;
+      break;
+    case 'Calm':
+      attributes.valence = 0.5;
+      attributes.energy = 0.2;
+      break;
+    case 'Rage':
+      attributes.valence = 0.2;
+      attributes.energy = 0.8;
+      break;
+    // Add more cases for other moods as needed
+  }
+
+  return attributes;
 }
+
 
 function fetchTracksWithAttributes(attributes) {
   // Fetch tracks from Spotify based on the attributes associated with the selected mood
@@ -67,8 +93,10 @@ function generatePlaylistForMood(mood) {
     fetchTracksWithAttributes(attributes).then(tracks => {
       if (tracks.length > 0) {
         displayTracksAsText(tracks);
-        // Optionally create a Spotify playlist with these tracks
-        // createOrUpdatePlaylist(userId, tracks.map(track => track.uri));
+        createPlaylist(userId, 'Discover TuneSculpt')
+          .then(playlistId => {
+            showListenOnSpotifyButton(playlistId);
+          });
       } else {
         alert('No tracks found for this mood. Please try a different mood.');
       }
@@ -92,8 +120,51 @@ function displayTracksAsText(tracks) {
   });
 }
 
+function showListenOnSpotifyButton(playlistId) {
+  const listenBtn = document.getElementById('listenOnSpotifyBtn');
+  if (listenBtn) {
+      listenBtn.style.display = 'inline-block'; // Show the button
+      listenBtn.href = `https://open.spotify.com/playlist/${playlistId}`; // Set the correct Spotify URL
+  }
+}
+
 
 function createOrUpdatePlaylist(userId, trackUris) {
   // Create a new playlist and add the tracks to it
   // ...
 }
+
+function createPlaylist(userId, accessToken) {
+  const url = `https://api.spotify.com/v1/users/${userId}/playlists`;
+
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: 'New Playlist',
+      public: false // Change to true if you want the playlist to be public
+    })
+  })
+  .then(response => {
+    if (response.status === 403) {
+      console.error('Access forbidden. Check access token and permissions.');
+      // Handle forbidden error (e.g., try to refresh the access token)
+    } else if (!response.ok) {
+      throw new Error(`Server response status code: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(playlistData => {
+    console.log('Playlist created:', playlistData);
+    return playlistData.id; // Use this ID to add tracks or link to the playlist
+  })
+  .catch(error => {
+    console.error('Error creating playlist:', error);
+  });
+}
+
+
+

@@ -154,19 +154,47 @@ body {
   font-size: 1rem;
 }
 
-#moodForm button {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: 1px solid var(--accent);
-  background-color: var(--accent);
+/* GENERATE and LISTEN buttons style */
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 30px; /* Rounded edges */
+  background: linear-gradient(45deg, var(--primary), var(--accent));
   color: var(--F-color);
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border: none; /* Remove default border */
+  outline: none; /* Remove focus outline */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  text-transform: uppercase; /* Stylistic choice for button text */
+  letter-spacing: 1px; /* Increase letter spacing */
+  margin-right: 15px; /* Spacing between buttons */
 }
 
-#moodForm button:hover {
-  background-color: var(--primary);
+.btn:hover {
+  background: linear-gradient(45deg, var(--accent), var(--primary));
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  transform: translateY(-2px); /* Slight lift effect */
 }
+
+.btn:active {
+  transform: translateY(1px); /* Depress effect on click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Flatter shadow on click */
+}
+
+/* Adjustments for specific buttons if needed */
+#moodForm button.btn-generate {
+  /* Specific styles for the 'Generate Playlist' button if needed */
+}
+
+#listenOnSpotifyBtn {
+  display: none; /* Initially hidden, shown after generation */
+  /* Specific styles for the 'Listen on Spotify' button if needed */
+}
+
+
 
 /* TRACKLIST container */
 
