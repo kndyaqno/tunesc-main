@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/tunesc-vs/styles/dashboard.css" />
     <title>User</title>
     <script src="/tunesc-vs/components/spot.js"></script>
+    <script src="/tunesc-vs/auth/signout.js"></script>
     <script>
       // Initialize the token extraction process when the window is fully loaded
       window.onload = function() {
@@ -25,13 +26,13 @@
     <div class="sidebar">
       <div class="logo"></div>
       <ul class="menu">
-        <li class="active">
+        <li>
           <a href="UserProfile.html">
             <i class="fa-solid fa-address-book"></i>
             <span>Profile</span>
           </a>
         </li>
-        <li>
+        <li class="active">
           <a href="#">
             <i class="fa-solid fa-chess-board"></i>
             <span>Dashboard</span>
@@ -85,8 +86,11 @@
               <form id="moodForm">
                 <label for="moodDropdown">Select your mood:</label>
                 <select id="moodDropdown" name="moods">
-                  <option value="happy">Happy</option>
-                  <option value="sad">Sad</option>
+                  <option value="Happy">Happy</option>
+                  <option value="Sad">Sad</option>
+                  <option value="Energetic">Rage</option>
+                  <option value="Calm">Calm</option>
+                  <option value="Rage">Rage</option>
                   <!-- ... other options ... -->
                 </select>
                 <button type="submit">Generate Playlist</button>

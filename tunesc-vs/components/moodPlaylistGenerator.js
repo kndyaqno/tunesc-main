@@ -41,12 +41,38 @@ function fetchSpotifyUserID() {
 
 function mapMoodToAttributes(mood) {
   // Maps the selected mood to track attributes used in the Spotify API
-  return {
-    valence: mood === 'happy' ? 0.8 : mood === 'sad' ? 0.2 : 0.5,
-    energy: mood === 'energetic' ? 0.8 : 0.4,
-    // ...other mood mappings...
+  const attributes = {
+    valence: 0.5, // Default valence
+    energy: 0.5,  // Default energy
   };
+
+  switch (mood) {
+    case 'Happy':
+      attributes.valence = 0.8;
+      attributes.energy = 0.8;
+      break;
+    case 'Sad':
+      attributes.valence = 0.2;
+      attributes.energy = 0.3;
+      break;
+    case 'Energetic':
+      attributes.valence = 0.7;
+      attributes.energy = 0.9;
+      break;
+    case 'Calm':
+      attributes.valence = 0.5;
+      attributes.energy = 0.2;
+      break;
+    case 'Rage':
+      attributes.valence = 0.2;
+      attributes.energy = 0.8;
+      break;
+    // Add more cases for other moods as needed
+  }
+
+  return attributes;
 }
+
 
 function fetchTracksWithAttributes(attributes) {
   // Fetch tracks from Spotify based on the attributes associated with the selected mood
