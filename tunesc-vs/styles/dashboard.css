@@ -168,3 +168,21 @@ body {
 #moodForm button:hover {
   background-color: var(--accent);
 }
+
+/* Playlist Container */
+#playlistsContainer {
+  /* Your styles for the container */
+}
+
+.playlist {
+  /* Your styles for each playlist */
+}
+
+.playlist-name {
+  font-weight: bold;
+}
+
+.playlist-total-tracks {
+  font-size: 0.8rem;
+  color: grey;
+}
