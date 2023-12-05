@@ -9,20 +9,36 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   function generatePlaylistForMood(mood) {
-    const attributes = mapMoodToAttributes(mood);
-    fetchTracksWithAttributes(attributes).then(tracks => {
-      if (tracks.length > 0) {
-        createOrUpdatePlaylist(tracks);
-      } else {
-        alert('No tracks found for this mood. Please try a different mood.');
-      }
+    fetchSpotifyUserID().then(userId => {
+      const attributes = mapMoodToAttributes(mood);
+      fetchTracksWithAttributes(attributes).then(tracks => {
+        if (tracks.length > 0) {
+          createOrUpdatePlaylist(userId, tracks);
+        } else {
+          alert('No tracks found for this mood. Please try a different mood.');
+        }
+      }).catch(error => {
+        console.error('Error fetching tracks:', error);
+        alert('An error occurred while generating the playlist.');
+      });
     }).catch(error => {
-      console.error('Error fetching tracks:', error);
-      alert('An error occurred while generating the playlist.');
+      console.error('Error fetching user ID:', error);
     });
   }
   
+  function fetchSpotifyUserID() {
+    // Replace 'access_token' with the actual access token
+    return fetch('https://api.spotify.com/v1/me', {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+    .then(response => response.json())
+    .then(data => data.id);
+  }
+  
   function mapMoodToAttributes(mood) {
+    // Map the mood to Spotify track attributes
     // Replace with actual logic based on Spotify's API
     return {
       valence: mood === 'happy' ? 0.8 : mood === 'sad' ? 0.2 : 0.5,
@@ -40,16 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(response => response.json())
     .then(data => {
-      // Extracting track URIs from the response
       return data.tracks.map(track => track.uri);
     });
   }
   
-  function createOrUpdatePlaylist(tracks) {
+  function createOrUpdatePlaylist(userId, tracks) {
     // Replace with actual Spotify API call for playlist creation/updating
-    const userId = 'YOUR_SPOTIFY_USER_ID'; // Replace with actual user ID
-  
-    // Create a new playlist
     return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
       method: 'POST',
       headers: {
@@ -64,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(response => response.json())
     .then(playlist => {
-      // Add tracks to the newly created playlist
       return fetch(`https://api.spotify.com/v1/playlists/${playlist.id}/tracks`, {
         method: 'POST',
         headers: {
