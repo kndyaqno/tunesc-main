@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="confirm.css" />
     <link rel="stylesheet" href="/tunesc-vs/styles/dashboard.css" />
     <title>User</title>
+    <script src="components/spot.js"></script>
+    <script>
+      // Initialize the token extraction process when the window is fully loaded
+      window.onload = function() {
+      // This function should exist in moodPlaylistGenerator.js
+      initializeApp();
+      };
+    </script>
+    <script src="components/moodPlaylistGenerator.js"></script>
   </head>
   <body>
     <!-- dito mag reredirect yung user after login -->
@@ -69,31 +78,30 @@
           <!-- lagay galing firebase yung user image or sa spotify -->
           <img id="spot_picture" alt="" />
         </div>
-      </div>
 
+      </div>
             <!-- Mood Selection Dropdown -->
-      <div class="mood-selection">
-        <form id="moodForm">
-          <label for="moodDropdown">Select your mood:</label>
-          <select id="moodDropdown" name="moods">
-            <option value="happy">Happy</option>
-            <option value="sad">Sad</option>
-            <option value="energetic">Energetic</option>
-            <option value="relax">Relax</option>
-            <option value="angry">Angry</option>
-          </select>
-          <button type="submit">Generate Playlist</button>
-        </form>
-      </div>
+            <div>
+              <form id="moodForm">
+                <label for="moodDropdown">Select your mood:</label>
+                <select id="moodDropdown" name="moods">
+                  <option value="happy">Happy</option>
+                  <option value="sad">Sad</option>
+                  <!-- ... other options ... -->
+                </select>
+                <button type="submit">Generate Playlist</button>
+              </form>
+            </div>
+          <!-- Playlists will be added here!! -->
+          <div id="trackListContainer"></div>
+       </div>
 
-      <div id="playlistsContainer">
-        <!-- Playlists will be added here!! -->
-      </div>
+    
 
     <!-- firebase -->
     <script type="module" src="/tunesc-vs/auth/signin.js"></script>
     <script type="module" src="/tunesc-vs/auth/signup.js"></script>
-    <script src="components/moodPlaylistGenerator.js"></script>
+    
 
     <!-- fontawesome icons -->
     <script

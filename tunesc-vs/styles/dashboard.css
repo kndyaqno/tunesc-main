@@ -135,54 +135,54 @@ body {
   transform: scale(1.2);
 }
 
-/* card container */
-
-/* Mood Selection Styles */
-.mood-selection {
-  margin-top: 20px;
-  text-align: center;
-}
+/* MOOD SELECTION Styles */
 
 #moodForm {
-  display: inline-block;
-  margin-right: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
 }
 
 #moodDropdown {
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: 5px;
-  border: 1px solid #ddd;
-  background-color: #fff;
+  border: 1px solid var(--secondary);
+  background-color: var(--F-color);
+  color: var(--secondary);
   margin-right: 10px;
+  font-size: 1rem;
 }
 
 #moodForm button {
   padding: 10px 15px;
   border-radius: 5px;
-  border: none;
-  background-color: var(--primary);
-  color: white;
+  border: 1px solid var(--accent);
+  background-color: var(--accent);
+  color: var(--F-color);
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 #moodForm button:hover {
-  background-color: var(--accent);
+  background-color: var(--primary);
 }
 
-/* Playlist Container */
-#playlistsContainer {
-  /* Your styles for the container */
+/* TRACKLIST container */
+
+#trackListContainer {
+  margin: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--background-c);
+  color: var(--F-color);
 }
 
-.playlist {
-  /* Your styles for each playlist */
-}
-
-.playlist-name {
-  font-weight: bold;
-}
-
-.playlist-total-tracks {
-  font-size: 0.8rem;
-  color: grey;
+.track-info {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: var(--secondary);
+  color: var(--F-color);
+  border-radius: 4px;
+  font-size: 1rem;
 }
