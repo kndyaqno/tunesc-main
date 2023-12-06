@@ -134,13 +134,13 @@ function createOrUpdatePlaylist(userId, trackUris) {
   // ...
 }
 
-function createPlaylist(userId, accessToken) {
+function createPlaylist(userId) {
   const url = `https://api.spotify.com/v1/users/${userId}/playlists`;
 
   return fetch(url, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${window.access_token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({

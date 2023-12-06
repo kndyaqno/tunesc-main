@@ -1,7 +1,7 @@
-function getUserProfile(access_token) {
+function getUserProfile() {
   fetch("https://api.spotify.com/v1/me", {
     headers: {
-      Authorization: "Bearer " + access_token,
+      Authorization: "Bearer " + window.access_token,
     },
   })
     .then((response) => response.json())
@@ -19,4 +19,4 @@ function getUserProfile(access_token) {
     });
 }
 
-getUserProfile(access_token);
+getUserProfile(window.access_token);
