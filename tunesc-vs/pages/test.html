@@ -19,6 +19,31 @@
             margin: 10px;
             cursor: pointer;
         }
+
+        input[type="range"] {
+            width: 80%;
+            margin-top: 10px;
+        }
+
+        /* Styles for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -26,13 +51,28 @@
     <button id="connectBtn" onclick="authenticateSpotify()">Connect to Spotify</button>
 
     <!-- Generate Playlist buttons -->
-    <button class="emoji-button" onclick="generateRandomPlaylist('😊')" >😊</button>
-    <button class="emoji-button" onclick="generateRandomPlaylist('😢')" >😢</button>
-    <button class="emoji-button" onclick="generateRandomPlaylist('😎')" >😎</button>
-    <button class="emoji-button" onclick="generateRandomPlaylist('😴')" >😴</button>
-    <button class="emoji-button" onclick="generateRandomPlaylist('❤️')" >❤️</button>
+    <button class="emoji-button" onclick="showModal('😊')">😊</button>
+    <button class="emoji-button" onclick="showModal('😢')">😢</button>
+    <button class="emoji-button" onclick="showModal('😎')">😎</button>
+    <button class="emoji-button" onclick="showModal('😴')">😴</button>
+    <button class="emoji-button" onclick="showModal('❤️')">❤️</button>
 
-    <!-- Your HTML content -->
+    <!-- Modal for adjusting settings -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <label for="numSongsRange">Number of Songs:</label>
+            <br>
+            <input type="range" id="numSongsRange" min="1" max="50" value="30">
+            <br>
+            <span id="numSongsValue">30</span>
+            <br>
+            <label for="imageInput">Upload Image:</label>
+            <input type="file" id="imageInput" accept="image/*">
+            <br>
+            <button onclick="generateRandomPlaylist()">Generate Playlist</button>
+            <button onclick="hideModal()">Cancel</button>
+        </div>
+    </div>
 
 <script>
     // Spotify API credentials
@@ -98,25 +138,30 @@
         // SDK is ready, you can add SDK-related code here
     };
 
-    // Function to generate a playlist of random songs based on emoji
-    function generateRandomPlaylist(emoji) {
+    // Function to generate a playlist of random songs based on settings
+    function generateRandomPlaylist() {
         if (!accessToken) {
             alert('Please connect to Spotify first.');
+            hideModal();
             return;
         }
 
-        // Example: Create a playlist named "Random Playlist" and add 10 random songs to it
-        createPlaylist(`By TuneSculp ${emoji}`).then(playlistId => {
-            generateRandomTracks(10).then(trackUris => {
+        const numSongs = document.getElementById('numSongsRange').value;
+        const imageFile = document.getElementById('imageInput').files[0];
+
+        // Example: Create a playlist named "Random Playlist" with numSongs random songs and an optional image
+        createPlaylist('Random Playlist', imageFile).then(playlistId => {
+            generateRandomTracks(numSongs).then(trackUris => {
                 addTracksToPlaylist(playlistId, trackUris).then(() => {
-                    alert(`Playlist "Random Playlist ${emoji}" created with 10 random songs.`);
+                    alert(`Playlist "Random Playlist" created with ${numSongs} random songs.`);
+                    hideModal();
                 });
             });
         });
     }
 
-    // Function to create a playlist in the user's Spotify account
-    async function createPlaylist(playlistName) {
+    // Function to create a playlist in the user's Spotify account with an optional image
+    async function createPlaylist(playlistName, imageFile) {
         const createPlaylistEndpoint = 'https://api.spotify.com/v1/me/playlists';
 
         // Create the playlist
@@ -133,7 +178,32 @@
         });
 
         const data = await response.json();
-        return data.id;
+        const playlistId = data.id;
+
+        // Upload image if provided
+        if (imageFile) {
+            await uploadPlaylistImage(playlistId, imageFile);
+        }
+
+        return playlistId;
+    }
+
+    // Function to upload an image to a playlist
+    async function uploadPlaylistImage(playlistId, imageFile) {
+        const uploadImageEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}/images`;
+
+        // Create a FormData object and append the image file
+        const formData = new FormData();
+        formData.append('image', imageFile);
+
+        // Upload the image
+        await fetch(uploadImageEndpoint, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            },
+            body: formData
+        });
     }
 
     // Function to generate a list of random song track URIs
@@ -165,11 +235,33 @@
             })
         });
     }
+
+    // Function to show the modal and set default values
+    function showModal(emoji) {
+        const modal = document.getElementById('myModal');
+        modal.style.display = 'flex';
+
+        // Set emoji for the playlist
+        document.getElementById('emojiPlaceholder').innerText = emoji;
+
+        // Set default value for the number of songs
+        document.getElementById('numSongsRange').value = 30;
+        document.getElementById('numSongsValue').innerText = '30';
+
+        // Clear the image input value
+        document.getElementById('imageInput').value = '';
+    }
+
+    // Function to hide the modal
+    function hideModal() {
+        const modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+    }
+
+    // Update the displayed value when the range input changes
+    document.getElementById('numSongsRange').addEventListener('input', function() {
+        document.getElementById('numSongsValue').innerText = this.value;
+    });
 </script>
-
-<!-- Your HTML content -->
-
-
-    
 </body>
 </html>
