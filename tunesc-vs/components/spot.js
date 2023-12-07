@@ -1,8 +1,10 @@
 // spot.js content
-const client_id = "fb5042f5e08e4d948bf4c9685c66543c";
+const client_id = "dafb898a1198443b8d0ed3623ece4fad";
 const redirect_uri = "http://127.0.0.1:5500/tunesc-vs/pages/Dashboard.html";
 const AUTHORIZE = "https://accounts.spotify.com/authorize";
-const scopes = "user-read-private user-read-email playlist-modify-public ugc-image-upload";
+// const scopes = "user-read-private user-read-email playlist-modify-public ugc-image-upload";
+const scopes = "user-read-private user-read-email playlist-modify-public playlist-modify-private ugc-image-upload";
+
 
 // Function to parse the access token from the URL hash
 function getAccessTokenFromUrl() {
