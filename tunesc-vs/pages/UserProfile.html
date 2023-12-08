@@ -68,6 +68,15 @@
   SignoutBtn.addEventListener("click", Signout);
     </script>
 
+<script>
+  function onPageLoad() {
+    // Your logic for page load
+    getUserProfile();
+  }
+
+  // Attach the onload event to onPageLoad
+  window.onload = onPageLoad;
+</script>
     <!-- firebase -->
     <script type="module" src="/tunesc-vs/auth/signin.js"></script>
     <script type="module" src="/tunesc-vs/auth/signup.js"></script>
