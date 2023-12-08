@@ -74,9 +74,29 @@ function mapMoodToAttributes(mood) {
 }
 
 
+// function fetchTracksWithAttributes(attributes) {
+//   // Fetch tracks from Spotify based on the attributes associated with the selected mood
+//   return fetch(`https://api.spotify.com/v1/recommendations?seed_genres=pop&target_valence=${attributes.valence}&target_energy=${attributes.energy}`, {
+//     headers: {
+//       'Authorization': `Bearer ${window.access_token}`
+//     }
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     return data.tracks; // Return the full track objects
+//   });
+// }
+
+
+//-----------------------------------------------------------------------
+
 function fetchTracksWithAttributes(attributes) {
+  // Add a random factor to the seed values
+  const randomValence = Math.random();
+  const randomEnergy = Math.random();
+
   // Fetch tracks from Spotify based on the attributes associated with the selected mood
-  return fetch(`https://api.spotify.com/v1/recommendations?seed_genres=pop&target_valence=${attributes.valence}&target_energy=${attributes.energy}`, {
+  return fetch(`https://api.spotify.com/v1/recommendations?seed_genres=pop&target_valence=${randomValence}&target_energy=${randomEnergy}`, {
     headers: {
       'Authorization': `Bearer ${window.access_token}`
     }
@@ -197,7 +217,7 @@ function addTracksToPlaylist(userId, playlistId, trackUris) {
 }
 
 // Add the following lines to initiate the process
-const userId = fetchSpotifyUserID; // Replace with the actual user ID
+const userId = fetchSpotifyUserID; 
 
 
 createOrUpdatePlaylist(userId, trackUris);
